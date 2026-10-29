@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.astro/
+.DS_Store
+.env
+public/api/config.php
+_to_delete/

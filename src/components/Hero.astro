@@ -1,0 +1,57 @@
+---
+// Hero mit Bild-Slider (Überblenden + Ken-Burns-Zoom) und klickbaren Kapiteln.
+const slides = [
+  { img: '/img/hero-etikettiersystem.webp', w: 1100, h: 600, origin: '70% 40%', no: '01', title: 'Druck- & Etikettiersysteme', sub: 'Serie 7000 · Thermo-Transfer' },
+  { img: '/img/hero-sondermaschine.webp', w: 720, h: 568, origin: '40% 50%', no: '02', title: 'Sondermaschinen', sub: 'Projektspezifisch · integriert in Ihre Linie' },
+  { img: '/img/hero-rollenumwicklung.webp', w: 730, h: 568, origin: '50% 60%', no: '03', title: 'Rollenumwicklung & Prüfsysteme', sub: 'Etiketten prüfen · zählen · umwickeln' },
+];
+---
+<section id="hero" class="relative overflow-hidden bg-paper pt-20" data-dur="6500">
+  <div class="relative lg:min-h-[min(72vh,700px)]">
+    <!-- Bildfläche: mobil oben, Desktop rechts als Hintergrund -->
+    <div class="relative aspect-[4/3] overflow-hidden sm:aspect-[16/9] lg:absolute lg:inset-y-0 lg:right-0 lg:aspect-auto lg:w-[58%]">
+      {slides.map((s, i) => (
+        <div class:list={['hero-slide', i === 0 && 'is-active']} style={`--origin:${s.origin}`}>
+          <img src={s.img} width={s.w} height={s.h} alt={s.title} loading={i === 0 ? 'eager' : 'lazy'} fetchpriority={i === 0 ? 'high' : 'auto'} />
+        </div>
+      ))}
+      <!-- Verlauf in die Textfläche (Desktop) -->
+      <div class="pointer-events-none absolute inset-y-0 left-0 hidden w-1/3 bg-gradient-to-r from-paper via-paper/60 to-transparent lg:block"></div>
+      <div class="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-paper/70 to-transparent"></div>
+    </div>
+
+    <!-- Text -->
+    <div class="relative mx-auto max-w-[90rem] px-5 pb-12 pt-10 sm:px-8 lg:px-12 lg:pb-24 lg:pt-20">
+      <div class="lg:max-w-[40rem]">
+        <p class="label text-brand" data-reveal>Industrielle Kennzeichnung · Made in Germany</p>
+        <h1 class="h-display mt-6 text-[2.7rem] sm:text-6xl xl:text-[5.2rem]" data-reveal style="--d:.08s">
+          Kennzeichnen.<br />Identifizieren.<br /><span class="accent">Automatisiert.</span>
+        </h1>
+        <p class="mt-8 max-w-lg text-lg text-ink/70 sm:text-xl" data-reveal style="--d:.16s">
+          Etikettier-, Laser- und RFID-Systeme, die sich flexibel in Ihre Fertigungs- und Montagelinien integrieren – inklusive passender Etiketten und Transferfolien.
+        </p>
+        <div class="mt-10 flex flex-wrap gap-3" data-reveal style="--d:.24s">
+          <a href="#kontakt" class="btn btn-primary"><span>Projekt anfragen</span><span class="arrow" aria-hidden="true">→</span></a>
+          <a href="#produkte" class="btn btn-ghost"><span>Produkte ansehen</span></a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  const hero = document.getElementById('hero');
+  if (hero) {
+    const slides = [...hero.querySelectorAll<HTMLElement>('.hero-slide')];
+    const dur = Number(hero.dataset.dur) || 6500;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let idx = 0; let timer: number | undefined;
+    const show = (n: number) => {
+      idx = (n + slides.length) % slides.length;
+      slides.forEach((s, i) => s.classList.toggle('is-active', i === idx));
+      if (!reduce) { window.clearTimeout(timer); timer = window.setTimeout(() => show(idx + 1), dur); }
+    };
+    show(0);
+  }
+</script>

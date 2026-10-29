@@ -1,0 +1,160 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import ProductVisual from '../components/ProductVisual.astro';
+import ContactSection from '../components/ContactSection.astro';
+import { products, industries, workflow } from '../data/site';
+
+const title = 'topex-systems – Etikettier-, Laser- & RFID-Systeme für die Industrie';
+const description = 'Automatische Etikettiersysteme, Lasertechnik, RFID-Kennzeichnung sowie Etiketten und Transferfolien – Kennzeichnungslösungen für Automotive, E-Mobilität, Pharma, Logistik und mehr. Made in Germany.';
+
+const proof = ['Made in Germany', 'ISO 9001:2015', 'ISO 14001:2015', 'Vertrieb & Service in Europa, China und USA', 'Integration in SPS- und PC-Steuerungen', 'Sondermaschinen nach Maß'];
+const applications = [
+  { img: '/img/branche-karosserie.webp', w: 400, h: 205, label: 'Automotive', title: 'Karosseriekennzeichnung' },
+  { img: '/img/branche-sensor.webp', w: 400, h: 205, label: 'Automotive', title: 'Kennzeichnung Abstandsregeltempomat' },
+  { img: '/img/branche-logistik.webp', w: 669, h: 474, label: 'Logistik & Transport', title: 'Rückverfolgbarkeit in der Lieferkette' },
+];
+---
+<Base title={title} description={description}>
+
+  <Hero />
+
+  <!-- PROOF-LAUFBAND -->
+  <section class="on-dark bg-ink py-6 text-white" aria-label="Qualitätsmerkmale">
+    <div class="marquee overflow-hidden">
+      <div class="marquee-track">
+        {[...proof, ...proof].map((p) => (
+          <span class="label flex items-center gap-8 pr-8 whitespace-nowrap !text-[0.95rem] font-medium text-white">{p}<span class="h-2 w-2 bg-lilac"></span></span>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUKTE -->
+  <section id="produkte" class="bg-paper-2 scroll-mt-20">
+    <div class="mx-auto max-w-[90rem] px-5 py-24 sm:px-8 lg:px-12 lg:py-32">
+      <div class="grid gap-8 lg:grid-cols-12 lg:items-end">
+        <div class="lg:col-span-7">
+          <p class="label text-brand" data-reveal>Produkte</p>
+          <h2 class="h-section mt-5 text-4xl sm:text-5xl lg:text-6xl" data-reveal style="--d:.08s">Ihr Systemlieferant für <span class="accent">komplexe Kennzeichnung.</span></h2>
+        </div>
+        <p class="text-lg text-ink/65 lg:col-span-5" data-reveal style="--d:.16s">Vom Standard-Etikettenspender bis zur Sondermaschine: Wir liefern das System, die Integration und das Verbrauchsmaterial – abgestimmt auf Ihre Anwendung.</p>
+      </div>
+
+      <div class="mt-16 grid gap-6 md:grid-cols-2">
+        {products.map((p, i) => (
+          <article id={p.id} class="product-card group flex flex-col bg-white scroll-mt-24 shadow-[0_1px_0_rgb(18_19_23/.06)]" data-reveal style={`--d:${(i % 2) * 0.08}s`}>
+            <div class="relative aspect-[16/9] overflow-hidden border-b border-line bg-white">
+              {p.img
+                ? <img src={p.img} alt={p.title} loading="lazy" class="media absolute inset-0 h-full w-full object-contain p-6" />
+                : <div class="media absolute inset-0 grid-bg p-8 text-ink/70 sm:p-10"><ProductVisual variant={p.id as any} /></div>}
+              <span class="label absolute left-5 top-5 bg-white/90 px-2 py-1 text-brand">{p.no}</span>
+            </div>
+            <div class="flex flex-1 flex-col p-7 sm:p-10">
+              <h3 class="text-2xl font-bold tracking-tight sm:text-3xl">{p.title}</h3>
+              <p class="mt-2 font-medium text-brand">{p.claim}</p>
+              <p class="mt-4 text-ink/70">{p.text}</p>
+              <ul class="mt-6 grid gap-x-6 gap-y-2 border-t border-line pt-6 text-[0.95rem] text-ink/80 sm:grid-cols-2">
+                {p.items.map((it) => <li class="flex gap-2"><span class="mt-[0.55em] h-1 w-1 shrink-0 bg-brand"></span>{it}</li>)}
+              </ul>
+              <a href="#kontakt" class="mt-auto inline-flex items-center gap-2 pt-8 font-semibold transition-colors hover:text-brand">Beratung anfragen <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- BRANCHEN -->
+  <section id="branchen" class="bg-paper scroll-mt-20">
+    <div class="mx-auto max-w-[90rem] px-5 py-24 sm:px-8 lg:px-12 lg:py-32">
+      <div class="grid gap-8 lg:grid-cols-12 lg:items-end">
+        <div class="lg:col-span-7">
+          <p class="label text-brand" data-reveal>Branchen & Anwendungen</p>
+          <h2 class="h-section mt-5 text-4xl sm:text-5xl lg:text-6xl" data-reveal style="--d:.08s">Vielfältige Einsatzbereiche. <span class="accent">Ein Anspruch.</span></h2>
+        </div>
+        <p class="text-lg text-ink/65 lg:col-span-5" data-reveal style="--d:.16s">Überall dort, wo Bauteile eindeutig, dauerhaft und prozesssicher gekennzeichnet werden müssen.</p>
+      </div>
+
+      <div class="mt-16 grid gap-6 md:grid-cols-3">
+        {applications.map((a, i) => (
+          <figure class="group" data-reveal style={`--d:${i * 0.08}s`}>
+            <div class="img-reveal relative aspect-[16/10] overflow-hidden bg-paper-3" data-reveal>
+              <img src={a.img} width={a.w} height={a.h} alt={a.title} loading="lazy" class="h-full w-full object-cover transition-transform duration-[1.2s] group-hover:scale-105" />
+            </div>
+            <figcaption class="mt-4 flex items-baseline justify-between gap-4 border-b border-line pb-4">
+              <span class="font-semibold">{a.title}</span>
+              <span class="label shrink-0 text-steel">{a.label}</span>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+
+      <div class="mt-14 grid border-l border-t border-line sm:grid-cols-2 lg:grid-cols-4">
+        {industries.map((b, i) => (
+          <div class="group relative border-b border-r border-line p-7 transition-colors duration-500 hover:bg-lilac-soft" data-reveal style={`--d:${(i % 4) * 0.06}s`}>
+            <span class="label text-steel group-hover:text-brand">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="mt-8 text-xl font-semibold tracking-tight">{b.title}</h3>
+            <p class="mt-2 text-ink/60">{b.text}</p>
+            <span class="absolute bottom-0 left-0 h-[2px] w-0 bg-brand transition-all duration-700 group-hover:w-full"></span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- WORKFLOW / SERVICE -->
+  <section id="service" class="bg-paper-2 scroll-mt-20">
+    <div class="mx-auto max-w-[90rem] px-5 py-24 sm:px-8 lg:px-12 lg:py-32">
+      <div class="grid gap-8 lg:grid-cols-12 lg:items-end">
+        <div class="lg:col-span-7">
+          <p class="label text-brand" data-reveal>Service & Workflow</p>
+          <h2 class="h-section mt-5 text-4xl sm:text-5xl lg:text-6xl" data-reveal style="--d:.08s">Mit System <span class="accent">zum Erfolg.</span></h2>
+        </div>
+        <p class="text-lg text-ink/65 lg:col-span-5" data-reveal style="--d:.16s">Von der ersten Idee bis zum After-Sales-Service begleitet Sie ein fester Ansprechpartner durch Ihr Projekt.</p>
+      </div>
+      <ol class="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        {workflow.map((w, i) => (
+          <li class="relative bg-white p-7 sm:p-8" data-reveal style={`--d:${i * 0.08}s`}>
+            <div class="flex items-center gap-3">
+              <span class="flex h-10 w-10 items-center justify-center bg-brand font-mono text-sm text-white">{w.no}</span>
+              {i < workflow.length - 1 && <span class="hidden h-px flex-1 bg-ink/15 lg:block"></span>}
+            </div>
+            <h3 class="mt-8 text-2xl font-bold tracking-tight">{w.title}</h3>
+            <p class="mt-3 text-ink/70">{w.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- UNTERNEHMEN -->
+  <section id="unternehmen" class="bg-paper scroll-mt-20">
+    <div class="mx-auto grid max-w-[90rem] gap-16 px-5 py-24 sm:px-8 lg:grid-cols-12 lg:px-12 lg:py-32">
+      <div class="lg:col-span-5">
+        <div class="relative">
+          <div class="img-reveal aspect-[541/310] overflow-hidden" data-reveal>
+            <img src="/img/industrie-4-0.webp" width="541" height="310" alt="VR-Konstruktion bei topex-systems – Industrie 4.0" loading="lazy" class="h-full w-full object-cover" />
+          </div>
+          <div class="brand-gradient relative -mt-10 ml-8 p-8 text-white sm:ml-16 sm:p-10" data-reveal style="--d:.1s">
+            <p class="label text-white/75">Unser Maßstab</p>
+            <p class="mt-3 text-3xl font-light leading-tight tracking-tight sm:text-4xl">„Gut ist, was dem Kunden&nbsp;nützt.“</p>
+          </div>
+        </div>
+      </div>
+      <div class="lg:col-span-7 lg:pt-4">
+        <p class="label text-brand" data-reveal>Unternehmen</p>
+        <h2 class="h-section mt-5 text-4xl sm:text-5xl" data-reveal style="--d:.08s">Hightech-Schmiede für <span class="accent">industrielle Kennzeichnung.</span></h2>
+        <p class="mt-8 text-lg text-ink/70" data-reveal style="--d:.16s">Klein, aber fein: Statt Massenware entwickeln und fertigen wir hochwertige Systeme für die individuelle Teilekennzeichnung – mit dem Anspruch an Qualität, Präzision, Zuverlässigkeit und Langlebigkeit.</p>
+        <dl class="mt-12 grid gap-px border border-line bg-line sm:grid-cols-2">
+          <div class="bg-paper p-6" data-reveal><dt class="label text-brand">Industrie 4.0</dt><dd class="mt-2 text-ink/80">VR-Konstruktion und Digitalisierung der Kennzeichnungsinformationen.</dd></div>
+          <div class="bg-paper p-6" data-reveal style="--d:.06s"><dt class="label text-brand">Integration</dt><dd class="mt-2 text-ink/80">Einbindung in Fertigungs- und Montagelinien, Anbindung an SPS- und PC-Steuerungen.</dd></div>
+          <div class="bg-paper p-6" data-reveal style="--d:.12s"><dt class="label text-brand">Qualität</dt><dd class="mt-2 text-ink/80">Zertifiziert nach ISO 9001:2015 und ISO 14001:2015.</dd></div>
+          <div class="bg-paper p-6" data-reveal style="--d:.18s"><dt class="label text-brand">International</dt><dd class="mt-2 text-ink/80">Vertriebs- und Servicepartner in Europa, China und den USA.</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <ContactSection />
+</Base>

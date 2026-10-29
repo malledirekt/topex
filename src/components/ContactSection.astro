@@ -1,0 +1,79 @@
+---
+import { site, products } from '../data/site';
+const interests = [...products.map((p) => p.title), 'Sondermaschine / Sonderlösung', 'Service & Ersatzteile', 'Sonstiges'];
+const field = 'w-full border border-ink/15 bg-white px-4 py-3.5 text-ink placeholder:text-ink/35 outline-none transition-colors focus:border-brand';
+---
+<section id="kontakt" class="relative overflow-hidden border-t border-line bg-paper-2 scroll-mt-20">
+  <div class="grid-bg absolute inset-0"></div>
+  <div class="relative mx-auto grid max-w-[90rem] gap-16 px-5 py-24 sm:px-8 lg:grid-cols-12 lg:px-12 lg:py-32">
+    <div class="lg:col-span-5">
+      <p class="label text-brand" data-reveal>Kontakt</p>
+      <h2 class="h-section mt-5 text-4xl sm:text-5xl lg:text-6xl" data-reveal style="--d:.08s">Sprechen wir über <span class="accent">Ihre Anwendung.</span></h2>
+      <p class="mt-8 max-w-md text-lg text-ink/70" data-reveal style="--d:.16s">Beschreiben Sie kurz, was Sie kennzeichnen möchten – wir melden uns mit einem konkreten Lösungsvorschlag.</p>
+      <div class="mt-12 space-y-6" data-reveal style="--d:.24s">
+        <a href={`tel:${site.phone.replace(/\s/g, '')}`} class="group block border-t border-line pt-5">
+          <span class="label text-steel">Telefon</span>
+          <span class="mt-1 block text-2xl font-semibold tracking-tight group-hover:text-brand transition-colors">{site.phoneDisplay}</span>
+        </a>
+        <a href={`mailto:${site.email}`} class="group block border-t border-line pt-5">
+          <span class="label text-steel">E-Mail</span>
+          <span class="mt-1 block text-2xl font-semibold tracking-tight group-hover:text-brand transition-colors">{site.email}</span>
+        </a>
+        <div class="border-t border-line pt-5">
+          <span class="label text-steel">Adresse</span>
+          <p class="mt-1 text-ink/80">{site.legalName} · {site.address.street} · {site.address.zip} {site.address.city}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="lg:col-span-7">
+      <form id="contact-form" class="marks relative border border-line bg-white p-6 text-brand shadow-[0_30px_80px_-40px_rgb(18_19_23/.35)] sm:p-10" action="/api/lead.php" method="post" novalidate data-reveal style="--d:.12s">
+        <div class="grid gap-5 text-ink sm:grid-cols-2">
+          <label class="block"><span class="label text-steel">Name *</span><input name="name" required autocomplete="name" class={`mt-2 ${field}`} /></label>
+          <label class="block"><span class="label text-steel">Firma</span><input name="company" autocomplete="organization" class={`mt-2 ${field}`} /></label>
+          <label class="block"><span class="label text-steel">E-Mail *</span><input name="email" type="email" required autocomplete="email" class={`mt-2 ${field}`} /></label>
+          <label class="block"><span class="label text-steel">Telefon</span><input name="phone" type="tel" autocomplete="tel" class={`mt-2 ${field}`} /></label>
+          <label class="block sm:col-span-2"><span class="label text-steel">Interesse</span>
+            <select name="interest" class={`mt-2 ${field} appearance-none`}>
+              <option>Bitte wählen</option>
+              {interests.map((i) => <option>{i}</option>)}
+            </select>
+          </label>
+          <label class="block sm:col-span-2"><span class="label text-steel">Ihre Anwendung</span><textarea name="message" rows="5" class={`mt-2 ${field} resize-y`} placeholder="Was soll gekennzeichnet werden? Stückzahlen, Taktzeit, Material …"></textarea></label>
+          <input type="text" name="website" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
+          <input type="hidden" name="t" value="0" />
+          <label class="flex items-start gap-3 text-sm text-ink/65 sm:col-span-2">
+            <input type="checkbox" name="consent" required class="mt-1 h-4 w-4 accent-[#832181]" />
+            <span>Ich bin einverstanden, dass meine Angaben zur Bearbeitung der Anfrage verwendet werden. Mehr in der <a href="/datenschutz/" class="underline hover:text-brand">Datenschutzerklärung</a>. *</span>
+          </label>
+        </div>
+        <div class="mt-8 flex flex-wrap items-center gap-5">
+          <button type="submit" class="btn btn-primary"><span>Anfrage senden</span><span class="arrow" aria-hidden="true">→</span></button>
+          <p id="form-status" class="text-sm text-ink/70" role="status" aria-live="polite"></p>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  if (form) {
+    const started = Date.now();
+    const status = document.getElementById('form-status')!;
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!form.checkValidity()) { status.textContent = 'Bitte füllen Sie alle Pflichtfelder (*) aus.'; form.reportValidity(); return; }
+      (form.elements.namedItem('t') as HTMLInputElement).value = String(Date.now() - started);
+      const btn = form.querySelector('button[type=submit]') as HTMLButtonElement;
+      btn.disabled = true; status.textContent = 'Wird gesendet …';
+      try {
+        const res = await fetch(form.action, { method: 'POST', body: new FormData(form) });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && data.ok) { form.reset(); status.textContent = 'Vielen Dank! Wir melden uns in Kürze bei Ihnen.'; }
+        else status.textContent = 'Das hat leider nicht geklappt. Bitte rufen Sie uns an oder schreiben Sie eine E-Mail.';
+      } catch { status.textContent = 'Keine Verbindung. Bitte versuchen Sie es erneut.'; }
+      btn.disabled = false;
+    });
+  }
+</script>
