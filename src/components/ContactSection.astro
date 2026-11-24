@@ -1,6 +1,6 @@
 ---
-import { site, products } from '../data/site';
-const interests = [...products.map((p) => p.title), 'Sondermaschine / Sonderlösung', 'Service & Ersatzteile', 'Sonstiges'];
+import { site } from '../data/site';
+const interests = ['Support', 'Ersatzteile', 'Umbau von Bestandsanlagen'];
 const field = 'w-full border border-ink/15 bg-white px-4 py-3.5 text-ink placeholder:text-ink/35 outline-none transition-colors focus:border-brand';
 ---
 <section id="kontakt" class="relative overflow-hidden border-t border-line bg-paper-2 scroll-mt-20">
@@ -9,7 +9,7 @@ const field = 'w-full border border-ink/15 bg-white px-4 py-3.5 text-ink placeho
     <div class="lg:col-span-5">
       <p class="label text-brand" data-reveal>Kontakt</p>
       <h2 class="h-section mt-5 text-4xl sm:text-5xl lg:text-6xl" data-reveal style="--d:.08s">Sprechen wir über <span class="accent">Ihre Anwendung.</span></h2>
-      <p class="mt-8 max-w-md text-lg text-ink/70" data-reveal style="--d:.16s">Beschreiben Sie kurz, was Sie kennzeichnen möchten – wir melden uns mit einem konkreten Lösungsvorschlag.</p>
+      <p class="mt-8 max-w-md text-lg text-ink/70" data-reveal style="--d:.16s">Beschreiben Sie kurz Ihre Anlage und Ihr Anliegen – wir melden uns mit einem konkreten Vorschlag.</p>
       <div class="mt-12 space-y-6" data-reveal style="--d:.24s">
         <a href={`tel:${site.phone.replace(/\s/g, '')}`} class="group block border-t border-line pt-5">
           <span class="label text-steel">Telefon</span>
@@ -33,13 +33,13 @@ const field = 'w-full border border-ink/15 bg-white px-4 py-3.5 text-ink placeho
           <label class="block"><span class="label text-steel">Firma</span><input name="company" autocomplete="organization" class={`mt-2 ${field}`} /></label>
           <label class="block"><span class="label text-steel">E-Mail *</span><input name="email" type="email" required autocomplete="email" class={`mt-2 ${field}`} /></label>
           <label class="block"><span class="label text-steel">Telefon</span><input name="phone" type="tel" autocomplete="tel" class={`mt-2 ${field}`} /></label>
-          <label class="block sm:col-span-2"><span class="label text-steel">Interesse</span>
+          <label class="block sm:col-span-2"><span class="label text-steel">Anliegen</span>
             <select name="interest" class={`mt-2 ${field} appearance-none`}>
               <option>Bitte wählen</option>
               {interests.map((i) => <option>{i}</option>)}
             </select>
           </label>
-          <label class="block sm:col-span-2"><span class="label text-steel">Ihre Anwendung</span><textarea name="message" rows="5" class={`mt-2 ${field} resize-y`} placeholder="Was soll gekennzeichnet werden? Stückzahlen, Taktzeit, Material …"></textarea></label>
+          <label class="block sm:col-span-2"><span class="label text-steel">Nachricht</span><textarea name="message" rows="5" class={`mt-2 ${field} resize-y`} placeholder="Anlage / Typ, Serien- oder Anlagennummer, Ihr Anliegen …"></textarea></label>
           <input type="text" name="website" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
           <input type="hidden" name="t" value="0" />
           <label class="flex items-start gap-3 text-sm text-ink/65 sm:col-span-2">
@@ -48,7 +48,7 @@ const field = 'w-full border border-ink/15 bg-white px-4 py-3.5 text-ink placeho
           </label>
         </div>
         <div class="mt-8 flex flex-wrap items-center gap-5">
-          <button type="submit" class="btn btn-primary"><span>Anfrage senden</span><span class="arrow" aria-hidden="true">→</span></button>
+          <button type="submit" class="btn btn-primary"><span>Anfrage stellen</span><span class="arrow" aria-hidden="true">→</span></button>
           <p id="form-status" class="text-sm text-ink/70" role="status" aria-live="polite"></p>
         </div>
       </form>

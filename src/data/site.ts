@@ -5,54 +5,62 @@ export const site = {
   url: 'https://topex-systems.com',
   phone: '+49 7156 17645-0',
   phoneDisplay: '+49 (0)7156 17645-0',
-  email: 'info@buday.com', // TODO: eigene Adresse für topex-systems?
+  email: 'info@topex.de', // Ersatzteile & Service
   address: { street: 'Max-Eyth-Straße 6', zip: '71254', city: 'Ditzingen-Hirschlanden', country: 'DE' },
 };
 
-export const nav = [
-  { label: 'Produkte', href: '/#produkte' },
-  { label: 'Branchen', href: '/#branchen' },
-  { label: 'Service', href: '/#service' },
-  { label: 'Unternehmen', href: '/#unternehmen' },
-  { label: 'Kontakt', href: '/#kontakt' },
-];
+// Partnerfirma für Etiketten & Verbrauchsmaterial
+export const partner = { name: 'Buday GmbH', url: 'https://www.buday.com/' };
 
-export const products = [
+// Leistungen auf der Startseite (Detailtexte der Unterseiten: src/data/pages.ts)
+export const services = [
   {
     no: '01',
-    id: 'etikettiersysteme',
-    img: '/img/prod-etikettiersysteme.webp',
-    title: 'Etikettiersysteme',
-    claim: 'Das Etikett als Datenträger.',
-    text: 'Automatische Druck- und Etikettiersysteme im Thermo-Transfer-Verfahren – flexibel in Fertigungs- und Montagelinien integrierbar, angebunden an SPS- und PC-Steuerungen.',
-    items: ['Druck- und Etikettiersysteme Serie 7000', 'Standard- und Sonder-Etikettenspender', 'Thermo-Transfer-Tischdrucker', 'Rollenumwicklung & Prüfsysteme', 'Etikettenauf- und -abwickler Serie 100', 'Sondermaschinen'],
+    id: 'support',
+    href: '/service/support/',
+    img: '/img/7000er-serie.jpg',
+    title: 'Support',
+    claim: 'Für Sie da – auch nach der Inbetriebnahme.',
+    text: 'Schnelle Hilfe bei Störungen und Fragen rund um Betrieb, Wartung und Instandhaltung Ihrer Kennzeichnungssysteme.',
+    items: ['Technische Hotline & Fernunterstützung', 'Wartung und Instandhaltung', 'Reparatur-Service', 'Schulungen'],
+    cta: 'Mehr erfahren',
+    external: false,
   },
   {
     no: '02',
-    id: 'lasertechnik',
-    img: '/img/prod-lasertechnik.webp',
-    title: 'Lasertechnik',
-    claim: 'Mit Hightech zum perfekten Ergebnis.',
-    text: 'Laserbeschriftung und Laserschneiden für maximale Präzision und Langlebigkeit – von der Folienstation bis zur kompletten Arbeitsstation.',
-    items: ['Laser-Folienstation 5640', 'Laserarbeitsstationen Serie 5000', 'LM 5500 Laserfolienmodul', 'TM 5200 Typenschildmodul', 'Laserschneiden', 'Sondermaschinen'],
+    id: 'ersatzteile',
+    href: '/service/ersatzteile/',
+    img: '/img/mod-druck-etikettiersysteme.jpg',
+    title: 'Ersatzteile',
+    claim: 'Das passende Teil – weltweit geliefert.',
+    text: 'Ersatz- und Verschleißteile für Drucker, Spender, Steuerungen und Lasersysteme – damit Ihre Anlage zuverlässig weiterläuft.',
+    items: ['Ersatz- und Verschleißteile', 'Thermoleisten', 'Steuerungen & Komponenten', 'Versand weltweit'],
+    cta: 'Mehr erfahren',
+    external: false,
   },
   {
     no: '03',
-    id: 'rfid',
-    img: '',
-    title: 'RFID-Kennzeichnung',
-    claim: 'Berührungslos identifizieren.',
-    text: 'RFID-Etikettierlösungen, die Bauteile eindeutig und automatisch identifizierbar machen – inklusive Produktions- und Prüfsystemen für RFID-Labels.',
-    items: ['RFID-Etikettierlösungen', 'RFID-Sonderlösungen', 'Produktions- und Prüfsysteme für RFID-Labels'],
+    id: 'umbau',
+    href: '/service/umbau-retrofit/',
+    img: '/img/mod-es-sondermaschinen.jpg',
+    title: 'Umbau von Bestandsanlagen',
+    claim: 'Retrofit statt Neuanschaffung.',
+    text: 'Wir bringen bestehende Anlagen auf den aktuellen Stand – vom Austausch abgekündigter Komponenten bis zur Anpassung an neue Anforderungen.',
+    items: ['Modernisierung / Retrofit', 'Ersatz abgekündigter Komponenten', 'Anpassung an neue Produkte & Formate', 'Beratung zur Umrüstung'],
+    cta: 'Mehr erfahren',
+    external: false,
   },
   {
     no: '04',
     id: 'etiketten',
-    img: '',
+    href: partner.url,
+    img: '/img/mod-standardetiketten.jpg',
     title: 'Etiketten & Transferfolien',
-    claim: 'Alles, was Sie brauchen – in bester Qualität.',
-    text: 'Das passende Verbrauchsmaterial zu jedem System: robust, prozesssicher und auf Ihre Anwendung abgestimmt. Bestehende Artikel und Artikelstammdaten bleiben unverändert.',
+    claim: 'Jetzt bei unserer Partnerfirma Buday.',
+    text: 'Etiketten und Verbrauchsmaterial liefert ab sofort unsere Partnerfirma, die Buday GmbH. Bestehende Artikel und Artikelstammdaten bleiben unverändert.',
     items: ['Standardetiketten', 'Sonderetiketten', 'Funktionsetiketten', 'RFID-Etiketten / Smart Labels', 'Thermo-Transferfolien'],
+    cta: 'Zu Buday',
+    external: true,
   },
 ];
 
@@ -68,8 +76,7 @@ export const industries = [
 ];
 
 export const workflow = [
-  { no: '01', title: 'Beratung', text: 'Wir analysieren Ihr Vorhaben, Ihre Linie und Ihre Anforderungen an die Kennzeichnung.' },
-  { no: '02', title: 'Planung', text: 'Konzept, Konstruktion und Integration – auf Wunsch mit VR-Konstruktion.' },
-  { no: '03', title: 'Produktion', text: 'Fertigung und Inbetriebnahme Ihres Systems – Made in Germany.' },
-  { no: '04', title: 'Service', text: 'After-Sales-Service, Wartung und Verbrauchsmaterial aus einer Hand.' },
+  { no: '01', title: 'Beratung', text: 'Wir analysieren Ihre Anlage und Ihre Anforderungen an die Kennzeichnung.' },
+  { no: '02', title: 'Planung', text: 'Konzept, Konstruktion und Integration für Umbau und Modernisierung.' },
+  { no: '03', title: 'Service', text: 'After-Sales-Service, Wartung und Ersatzteile.' },
 ];

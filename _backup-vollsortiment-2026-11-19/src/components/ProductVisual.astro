@@ -1,0 +1,71 @@
+---
+// Technische Strichzeichnungen als Platzhalter, bis echte Produktfotos vorliegen.
+interface Props { variant: 'etikettiersysteme' | 'lasertechnik' | 'rfid' | 'etiketten'; }
+const { variant } = Astro.props;
+const bars = [3,1,2,1,1,3,1,2,2,1,3,1,1,2,1,3,2,1,1,2,3,1,2,1,1,3];
+let x = 0;
+const barRects = bars.map((w, i) => { const r = { x, w: w * 2.2, fill: i % 2 === 0 }; x += w * 2.2; return r; }).filter((b) => b.fill);
+---
+<svg viewBox="0 0 400 260" class="h-full w-full" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true">
+  {variant === 'etikettiersysteme' && (
+    <g>
+      <circle cx="90" cy="80" r="46" />
+      <circle cx="90" cy="80" r="16" />
+      <circle cx="90" cy="80" r="30" stroke-dasharray="2 4" opacity=".5" />
+      <path d="M126 108 L220 150 L300 150" />
+      <rect x="220" y="118" width="80" height="32" />
+      <path d="M232 118 v-30 h56 v30" />
+      <path d="M260 88 v-24" stroke-dasharray="3 3" opacity=".6" />
+      <rect x="40" y="196" width="320" height="22" opacity=".6" />
+      <rect x="250" y="174" width="60" height="22" fill="currentColor" fill-opacity=".14" />
+      <path d="M262 182 h36 M262 188 h22" opacity=".8" />
+      <path d="M20 230 h360" stroke-dasharray="1 5" opacity=".5" />
+      <text x="40" y="250" font-family="var(--font-mono)" font-size="9" fill="currentColor" stroke="none" opacity=".6">SERIE 7000 · THERMO-TRANSFER</text>
+    </g>
+  )}
+  {variant === 'lasertechnik' && (
+    <g>
+      <rect x="150" y="20" width="100" height="56" />
+      <path d="M170 76 l10 22 h40 l10 -22" />
+      <path d="M200 98 L200 176" stroke="var(--color-brand)" stroke-width="2" />
+      <circle cx="200" cy="178" r="5" fill="var(--color-lilac)" stroke="none" />
+      <circle cx="200" cy="178" r="12" stroke="var(--color-brand)" opacity=".5" />
+      <path d="M60 186 L340 186 L370 212 L90 212 Z" />
+      <text x="214" y="204" font-family="var(--font-mono)" font-size="10" fill="var(--color-lilac)" stroke="none" opacity=".9">TM 5200 · 0042-17</text>
+      <path d="M40 232 h320" stroke-dasharray="1 5" opacity=".5" />
+      <text x="40" y="250" font-family="var(--font-mono)" font-size="9" fill="currentColor" stroke="none" opacity=".6">SERIE 5000 · LASERBESCHRIFTUNG</text>
+    </g>
+  )}
+  {variant === 'rfid' && (
+    <g>
+      <rect x="110" y="60" width="180" height="120" rx="4" />
+      <rect x="130" y="80" width="90" height="80" />
+      <rect x="140" y="90" width="70" height="60" opacity=".7" />
+      <rect x="150" y="100" width="50" height="40" opacity=".5" />
+      <rect x="168" y="114" width="14" height="12" fill="currentColor" fill-opacity=".3" />
+      <path d="M236 90 h36 M236 104 h26 M236 118 h32" opacity=".7" />
+      <g stroke="var(--color-brand)">
+        <circle class="rfid-wave" cx="320" cy="60" r="20" />
+        <circle class="rfid-wave" cx="320" cy="60" r="20" />
+        <circle class="rfid-wave" cx="320" cy="60" r="20" />
+      </g>
+      <path d="M40 220 h320" stroke-dasharray="1 5" opacity=".5" />
+      <text x="40" y="244" font-family="var(--font-mono)" font-size="9" fill="currentColor" stroke="none" opacity=".6">UHF / HF · SMART LABEL</text>
+    </g>
+  )}
+  {variant === 'etiketten' && (
+    <g>
+      <rect x="150" y="46" width="190" height="120" opacity=".35" />
+      <rect x="120" y="66" width="190" height="120" opacity=".6" fill="var(--color-paper)" />
+      <rect x="90" y="86" width="190" height="120" fill="var(--color-paper)" />
+      <g transform="translate(106 102)">
+        {barRects.map((b) => <rect x={b.x} y="0" width={b.w} height="40" fill="currentColor" stroke="none" />)}
+      </g>
+      <path d="M106 160 h80 M106 172 h56 M106 184 h70" opacity=".7" />
+      <rect x="216" y="150" width="46" height="46" />
+      <path d="M216 196 v-46 h46" stroke-width="3" />
+      <path d="M40 228 h320" stroke-dasharray="1 5" opacity=".5" />
+      <text x="40" y="250" font-family="var(--font-mono)" font-size="9" fill="currentColor" stroke="none" opacity=".6">ETIKETTEN · TRANSFERFOLIEN</text>
+    </g>
+  )}
+</svg>

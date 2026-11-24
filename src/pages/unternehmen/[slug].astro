@@ -1,0 +1,9 @@
+---
+import Subpage from '../../layouts/Subpage.astro';
+import { companyPages } from '../../data/pages';
+export function getStaticPaths() {
+  return companyPages.map((page) => ({ params: { slug: page.slug }, props: { page } }));
+}
+const { page } = Astro.props;
+---
+<Subpage page={page} section="Unternehmen" sectionHref="/unternehmen/portraet-philosophie/" />

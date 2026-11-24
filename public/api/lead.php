@@ -33,6 +33,9 @@ if ((int)$in('t', 12) < 3000) out(400, ['ok' => false, 'error' => 'fast']);
 
 $name = $in('name', 120); $company = $in('company', 160); $email = $in('email', 200); $phone = $in('phone', 60);
 $interest = $in('interest', 80); $message = $in('message', 4000);
+// Zusatzfelder der Reparatur-Anfrage (optional)
+$extra = [];
+foreach (['ref' => 'Bezugsnummer', 'device' => 'Einsendung', 'model' => 'Typ / Modell', 'serial' => 'Seriennr.', 'plant' => 'Anlagennr.'] as $k => $label) { $v = $in($k, 160); if ($v !== '') $extra[] = $label . ': ' . $v; }
 if ($interest === 'Bitte wählen') $interest = '';
 if ($name === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) out(422, ['ok' => false, 'error' => 'fields']);
 if (($_POST['consent'] ?? '') !== 'on') out(422, ['ok' => false, 'error' => 'consent']);
@@ -49,6 +52,7 @@ $body = implode("\n", [
   'E-Mail: ' . $email,
   'Telefon: ' . ($phone ?: '–'),
   'Interesse: ' . ($interest ?: '–'),
+  ...$extra,
   '',
   'Anwendung / Nachricht:',
   $message ?: '–',

@@ -1,0 +1,9 @@
+---
+import Subpage from '../../layouts/Subpage.astro';
+import { servicePages } from '../../data/pages';
+export function getStaticPaths() {
+  return servicePages.map((page) => ({ params: { slug: page.slug }, props: { page } }));
+}
+const { page } = Astro.props;
+---
+<Subpage page={page} section="Service" sectionHref="/service/support/" />

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://topex-systems.com/sitemap-index.xml

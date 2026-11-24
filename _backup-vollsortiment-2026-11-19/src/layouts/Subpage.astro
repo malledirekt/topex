@@ -1,0 +1,139 @@
+---
+import Base from './Base.astro';
+import type { SubPage } from '../data/pages';
+import { site } from '../data/site';
+
+interface Props { page: SubPage; section: string; sectionHref: string; }
+const { page, section, sectionHref } = Astro.props;
+const title = `${page.title} – ${section} | topex-systems`;
+const description = page.intro.slice(0, 155);
+---
+<Base title={title} description={description}>
+
+  <!-- TYPOGRAFISCHER HEADER (ohne Bild) -->
+  <section class="relative overflow-hidden bg-paper">
+    <div class="absolute inset-0 grid-bg opacity-60" aria-hidden="true"></div>
+    <div class="relative mx-auto max-w-[90rem] px-5 pt-36 pb-14 sm:px-8 lg:px-12 lg:pt-44 lg:pb-20">
+      <nav aria-label="Brotkrumen" class="label flex items-center gap-2 text-steel">
+        <a href="/" class="hover:text-brand">Start</a>
+        <span aria-hidden="true">/</span>
+        <a href={sectionHref} class="hover:text-brand">{section}</a>
+        <span aria-hidden="true">/</span>
+        <span class="text-brand">{page.nav}</span>
+      </nav>
+      <h1 class="h-display mt-8 max-w-4xl text-5xl sm:text-6xl lg:text-7xl">{page.title}</h1>
+      <p class="accent mt-5 text-2xl sm:text-3xl lg:text-4xl">{page.claim}</p>
+      <p class="mt-8 max-w-2xl text-lg text-ink/70">{page.intro}</p>
+    </div>
+  </section>
+
+  <!-- MODULE (Bildkacheln) -->
+  {page.modules && page.modules.length > 0 && (
+    <section class="border-t border-line bg-paper-2">
+      <div class="mx-auto max-w-[90rem] px-5 py-20 sm:px-8 lg:px-12 lg:py-24">
+        <p class="label text-brand" data-reveal>Systeme & Module</p>
+        <h2 class="h-section mt-4 text-3xl sm:text-4xl" data-reveal style="--d:.06s">Das komplette Programm.</h2>
+        <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {page.modules.map((m, i) => (
+            <article class="product-card group flex flex-col bg-white shadow-[0_1px_0_rgb(18_19_23/.06)]" data-reveal style={`--d:${(i % 3) * 0.06}s`}>
+              <div class="relative aspect-[4/3] overflow-hidden border-b border-line bg-white">
+                <img src={m.img} alt={m.title} loading="lazy" class="media absolute inset-0 h-full w-full object-cover" />
+                <span class="label absolute left-4 top-4 bg-white/90 px-2 py-1 text-brand">{String(i + 1).padStart(2, '0')}</span>
+              </div>
+              <div class="flex flex-1 flex-col p-6">
+                <h3 class="text-xl font-bold tracking-tight">{m.title}</h3>
+                <p class="mt-2 text-[0.95rem] text-ink/70">{m.text}</p>
+                <a href="/#kontakt" class="mt-auto inline-flex items-center gap-2 pt-5 text-sm font-semibold transition-colors hover:text-brand">Anfragen <span aria-hidden="true">→</span></a>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- INHALT -->
+  <section class="bg-paper">
+    <div class="mx-auto max-w-[90rem] px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
+      <div class="grid gap-x-16 gap-y-14 lg:grid-cols-12">
+        <div class="space-y-14 lg:col-span-8">
+          {page.sections.map((s, i) => (
+            <div data-reveal style={`--d:${(i % 3) * 0.06}s`}>
+              {s.title && <h2 class="text-2xl font-bold tracking-tight sm:text-3xl">{s.title}</h2>}
+              {s.text && <p class="mt-4 text-lg leading-relaxed text-ink/70">{s.text}</p>}
+              {s.bullets && (
+                <ul class="mt-6 grid gap-4 sm:grid-cols-2">
+                  {s.bullets.map((b) => (
+                    <li class="group flex gap-3 border border-line bg-paper p-5 text-ink/80 transition-colors duration-300 hover:border-brand/40 hover:bg-lilac-soft/50">
+                      <span class="mt-[0.5em] h-1.5 w-1.5 shrink-0 bg-brand transition-transform group-hover:scale-150"></span>{b}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          ))}
+        </div>
+
+        <!-- CTA-Spalte -->
+        <aside class="lg:col-span-4">
+          <div class="brand-gradient sticky top-28 p-8 text-white" data-reveal>
+            <p class="label text-white/75">Beratung</p>
+            <p class="mt-3 text-2xl font-light leading-tight tracking-tight">Fragen zu {page.title}?</p>
+            <p class="mt-4 text-white/80">Sprechen Sie mit uns – wir finden die passende Lösung für Ihre Anwendung.</p>
+            <a href="/#kontakt" class="btn mt-6 bg-white text-brand hover:bg-white/90"><span>Anfrage senden</span><span class="arrow" aria-hidden="true">→</span></a>
+            <div class="mt-6 border-t border-white/20 pt-6 text-sm text-white/75">
+              <a href={`tel:${site.phone.replace(/\s/g, '')}`} class="block hover:text-white">{site.phoneDisplay}</a>
+              <a href={`mailto:${site.email}`} class="block hover:text-white">{site.email}</a>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ZERTIFIKATE -->
+  {page.certs && page.certs.length > 0 && (
+    <section class="border-t border-line bg-paper-2">
+      <div class="mx-auto max-w-[90rem] px-5 py-20 sm:px-8 lg:px-12 lg:py-24">
+        <p class="label text-brand" data-reveal>Nachweise</p>
+        <h2 class="h-section mt-4 text-3xl sm:text-4xl" data-reveal style="--d:.06s">Zertifikate zum Download</h2>
+        <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {page.certs.map((c, i) => (
+            <div class="flex flex-col border border-line bg-white p-6" data-reveal style={`--d:${(i % 3) * 0.06}s`}>
+              <div class="flex flex-1 items-center justify-center overflow-hidden bg-paper p-4">
+                <img src={c.img} alt={`Zertifikat ${c.label}`} loading="lazy" class="max-h-72 w-auto object-contain" />
+              </div>
+              <div class="mt-5 flex items-center justify-between gap-4">
+                <span class="font-semibold">{c.label}</span>
+                <a href={c.pdf} target="_blank" rel="noopener" class="btn btn-primary !py-2.5 !px-4 text-sm"><span>PDF</span><span class="arrow" aria-hidden="true">↓</span></a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- GALERIE (z. B. Branchen) -->
+  {page.gallery && page.gallery.length > 0 && (
+    <section class="border-t border-line bg-paper-2">
+      <div class="mx-auto max-w-[90rem] px-5 py-20 sm:px-8 lg:px-12 lg:py-24">
+        <p class="label text-brand" data-reveal>Im Überblick</p>
+        <h2 class="h-section mt-4 text-3xl sm:text-4xl" data-reveal style="--d:.06s">Anwendungen</h2>
+        <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {page.gallery.map((g, i) => (
+            <figure class="group" data-reveal style={`--d:${(i % 3) * 0.06}s`}>
+              <div class="img-reveal relative aspect-[4/3] overflow-hidden border border-line bg-white">
+                <img src={g.src} alt={g.caption} loading="lazy" class="h-full w-full object-cover transition-transform duration-[1.2s] group-hover:scale-105" />
+              </div>
+              <figcaption class="mt-3 flex items-baseline justify-between gap-3 border-b border-line pb-3">
+                <span class="font-medium">{g.caption}</span>
+                <span class="label shrink-0 text-steel">{String(i + 1).padStart(2, '0')}</span>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+</Base>

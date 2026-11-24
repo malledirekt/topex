@@ -1,0 +1,6 @@
+// Cloudflare-Vorschau (Worker mit statischen Dateien aus dem Astro-Build)
+{
+  "name": "topex",
+  "compatibility_date": "2026-10-01",
+  "assets": { "directory": "./dist" }
+}

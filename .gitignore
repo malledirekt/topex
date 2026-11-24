@@ -5,3 +5,4 @@ dist/
 .env
 public/api/config.php
 _to_delete/
+Claude outputs/

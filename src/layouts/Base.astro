@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
-import { site, nav, products } from '../data/site';
+import { site, partner } from '../data/site';
+import { mainNav, servicePages } from '../data/pages';
 import interLatin from '@fontsource-variable/inter-tight/files/inter-tight-latin-wght-normal.woff2?url';
 
 interface Props { title: string; description: string; schema?: object[]; noindex?: boolean; }
@@ -19,9 +20,9 @@ const org = {
   logo: site.url + '/img/logo-topex-systems.png',
   telephone: site.phone,
   email: site.email,
-  description: 'Etikettier-, Laser- und RFID-Systeme sowie Etiketten und Transferfolien für die industrielle Kennzeichnung und Identifizierung von Bauteilen.',
+  description: 'Servicepartner für industrielle Kennzeichnung: Support, Ersatzteile und Umbau von Bestandsanlagen für Etikettier-, Laser- und RFID-Systeme.',
   address: { '@type': 'PostalAddress', streetAddress: site.address.street, postalCode: site.address.zip, addressLocality: site.address.city, addressCountry: site.address.country },
-  hasOfferCatalog: { '@type': 'OfferCatalog', name: 'Produkte', itemListElement: products.map((p) => ({ '@type': 'OfferCatalog', name: p.title, description: p.text })) },
+  hasOfferCatalog: { '@type': 'OfferCatalog', name: 'Service', itemListElement: servicePages.map((p) => ({ '@type': 'OfferCatalog', name: p.title, description: p.intro })) },
 };
 const website = { '@context': 'https://schema.org', '@type': 'WebSite', '@id': site.url + '/#website', url: site.url + '/', name: 'topex-systems', inLanguage: 'de-DE', publisher: { '@id': site.url + '/#organization' } };
 ---
@@ -60,20 +61,49 @@ const website = { '@context': 'https://schema.org', '@type': 'WebSite', '@id': s
         <img src="/img/logo-topex-systems.webp" alt="topex-systems" width="56" height="56" class="h-14 w-14" />
       </a>
       <nav aria-label="Hauptnavigation" class="hidden lg:block">
-        <ul class="flex items-center gap-8 text-[0.92rem] font-medium text-ink/70">
-          {nav.map((n) => <li><a href={n.href} class="transition-colors hover:text-brand">{n.label}</a></li>)}
+        <ul class="flex items-center gap-7 text-[0.92rem] font-medium text-ink/70">
+          {mainNav.map((n) => (
+            <li class="group relative">
+              <a href={n.href} class="inline-flex items-center gap-1 py-6 transition-colors hover:text-brand">
+                {n.label}
+                {n.children.length > 0 && <span class="text-[0.6rem] text-ink/40 transition-transform group-hover:rotate-180" aria-hidden="true">▾</span>}
+              </a>
+              {n.children.length > 0 && (
+                <div class="invisible absolute left-0 top-full z-50 -translate-y-1 opacity-0 transition-all duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
+                  <ul class="min-w-64 border border-line bg-white py-2 shadow-[0_12px_40px_rgb(18_19_23/.12)]">
+                    {n.children.map((c) => (
+                      <li><a href={c.href} class="block px-5 py-2.5 text-ink/75 transition-colors hover:bg-lilac-soft hover:text-brand">{c.label}</a></li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </li>
+          ))}
         </ul>
       </nav>
       <div class="flex items-center gap-3">
-        <a href="#kontakt" class="btn btn-primary !py-3 !px-4 text-sm"><span>Anfrage<span class="hidden sm:inline"> senden</span></span><span class="arrow" aria-hidden="true">→</span></a>
+        <a href="/#kontakt" class="btn btn-primary !py-3 !px-4 text-sm"><span>Anfrage<span class="hidden sm:inline"> stellen</span></span><span class="arrow" aria-hidden="true">→</span></a>
         <button id="menu-btn" class="lg:hidden inline-flex h-11 w-11 items-center justify-center border border-ink/15 bg-white/70" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobile-menu">
           <span class="block h-px w-5 bg-ink shadow-[0_6px_0_var(--color-ink)] -translate-y-[3px]"></span>
         </button>
       </div>
     </div>
-    <div id="mobile-menu" hidden class="lg:hidden border-t border-line bg-white">
-      <ul class="px-5 py-4 sm:px-8">
-        {nav.map((n) => <li><a href={n.href} class="flex items-center justify-between border-b border-line py-4 text-lg">{n.label}<span class="text-brand">→</span></a></li>)}
+    <div id="mobile-menu" hidden class="lg:hidden max-h-[80vh] overflow-y-auto border-t border-line bg-white">
+      <ul class="px-5 py-2 sm:px-8">
+        {mainNav.map((n) => (
+          n.children.length > 0 ? (
+            <li class="border-b border-line">
+              <details>
+                <summary class="flex cursor-pointer items-center justify-between py-4 text-lg marker:content-none [&::-webkit-details-marker]:hidden">{n.label}<span class="text-brand transition-transform">+</span></summary>
+                <ul class="pb-3">
+                  {n.children.map((c) => <li><a href={c.href} class="flex items-center justify-between py-2.5 pl-4 text-ink/75">{c.label}<span class="text-brand">→</span></a></li>)}
+                </ul>
+              </details>
+            </li>
+          ) : (
+            <li><a href={n.href} class="flex items-center justify-between border-b border-line py-4 text-lg">{n.label}<span class="text-brand">→</span></a></li>
+          )
+        ))}
       </ul>
     </div>
   </header>
@@ -84,12 +114,13 @@ const website = { '@context': 'https://schema.org', '@type': 'WebSite', '@id': s
     <div class="mx-auto grid max-w-[90rem] gap-12 px-5 py-16 sm:px-8 lg:grid-cols-12 lg:px-12">
       <div class="lg:col-span-4">
         <img src="/img/logo-topex-systems.webp" alt="topex-systems" width="88" height="88" class="h-22 w-22" loading="lazy" />
-        <p class="mt-6 max-w-sm text-white/60">Systemlieferant für industrielle Kennzeichnung: Etikettier-, Laser- und RFID-Systeme sowie Etiketten und Transferfolien.</p>
+        <p class="mt-6 max-w-sm text-white/60">Servicepartner für industrielle Kennzeichnung: Support, Ersatzteile und Umbau von Bestandsanlagen.</p>
       </div>
       <div class="lg:col-span-3">
-        <p class="label text-steel">Produkte</p>
+        <p class="label text-steel">Service</p>
         <ul class="mt-4 space-y-2 text-white/75">
-          {products.map((p) => <li><a href={`/#${p.id}`} class="hover:text-white">{p.title}</a></li>)}
+          {servicePages.map((p) => <li><a href={`/service/${p.slug}/`} class="hover:text-white">{p.nav}</a></li>)}
+          <li><a href={partner.url} target="_blank" rel="noopener" class="hover:text-white">Etiketten & Transferfolien (Buday) ↗</a></li>
         </ul>
       </div>
       <div class="lg:col-span-3">
